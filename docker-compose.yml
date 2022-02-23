@@ -1,0 +1,6 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  mm1:
+    build: .
+  mm2:
+    build: .
