@@ -42,7 +42,7 @@ RUN set -ex \
         \
         && git clone  --depth 1 https://github.com/postgres/postgres \
         && mv postgres /home/postgres/ \
-        && chown -R postgres:postgres /home/postgres \
+        && chown -R postgres:postgres /home/postgres && \
         \
         cd /home/postgres/postgres \
         && su postgres -c "./configure \
