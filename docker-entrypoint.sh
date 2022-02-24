@@ -1,13 +1,11 @@
 #!/bin/bash
  
 # this are the environment variables which need to be set
-PGDATA=/u02/pgdata/14
-PGHOME="/u01/app/postgres/product/${PG_VERSION}"
-PGAUTOCONF=/u02/pgdata/14/postgresql.auto.conf
-PGHBACONF=/u02/pgdata/14/pg_hba.conf
-PGDATABASENAME=postgres
-PGUSERNAME=postgres
-PGPASSWD=postgres
+PGAUTOCONF="${PGDATA}/postgresql.auto.conf"
+PGHBACONF="${PGDATA}/pg_hba.conf"
+PGDATABASENAME=${postgres:-PGDATABASENAME}
+PGUSERNAME=${postgres:-PGUSERNAME}
+PGPASSWD=${postgres:-PGPASSWD}
  
 # create the database and the user
 _pg_create_database_and_user()
@@ -112,6 +110,9 @@ if [ -e ${PGDATA} ]; then
         # should be able to initialize a new cluster
         # and then start it
         _pg_init_and_start
+    fi
+    if [ -e ${PG_START_UP_SCRIPT} ]; then
+        ${PGHOME}/bin/psql -f ${PG_START_UP_SCRIPT}
     fi
 else
     # initialze and start the new cluster

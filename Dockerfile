@@ -1,11 +1,17 @@
-FROM ubuntu
+# debain would have been better, it needs testing
+FROM ubuntu:focal
 
 LABEL org.opencontainers.image.authors="kesavarapu.siva@gmail.com"
 
 ENV LANG en_US.utf8
-ENV PG_VERSION 14.3
-ENV PGDATA /u02/pgdata
+ENV PG_VERSION 15.0
+ENV PG_PREFIX /usr/share/postgresql
+ENV PGHOME ${PG_PREFIX}/$PG_VERSION
+ENV PGDATA /var/lib/postgresql/data
 ENV DEBIAN_FRONTEND=noninteractive 
+ENV PG_START_UP_SCRIPT /startup.sql
+ENV PATH $PATH:${PGHOME}/bin
+VOLUME ${PGDATA}
 ENV TZ=Etc/UTC
 RUN set -ex \
         \
@@ -31,25 +37,26 @@ RUN set -ex \
            locales \
            git libxml2\
         && localedef -i en_US -c -f UTF-8 en_US.UTF-8 \
-        && mkdir /u01/ \
+        && mkdir "${PGDATA}" -p \
         \
         && groupadd -r postgres --gid=999 \
         && useradd -m -r -g postgres --uid=999 postgres \
-        && chown postgres:postgres /u01/ \
+        && chown postgres:postgres "${PGDATA}" \
         && mkdir -p "$PGDATA" \
         && chown -R postgres:postgres "$PGDATA" \
         && chmod 700 "$PGDATA" \
         \
         && git clone  --depth 1 https://github.com/postgres/postgres \
         && mv postgres /home/postgres/ \
-        && chown -R postgres:postgres /home/postgres && \
+        && mkdir -p ${PGHOME} \
+        && chown -R postgres:postgres /home/postgres ${PGHOME} && \
         \
         cd /home/postgres/postgres \
         && su postgres -c "./configure \
                 --enable-integer-datetimes \
                 --enable-thread-safety \
                 --with-pgport=5432 \
-                --prefix=/u01/app/postgres/product/$PG_VERSION \
+                --prefix=${PGHOME} \
                 --with-ldap \
                 --with-python \
                 --with-openssl \
