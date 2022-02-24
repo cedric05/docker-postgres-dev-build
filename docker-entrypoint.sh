@@ -63,6 +63,7 @@ _pg_adjust_config() {
     echo "log_lock_waits = 'on'" >> ${PGAUTOCONF}
     echo "log_temp_files = '0'" >> ${PGAUTOCONF}
     echo "log_timezone = 'Europe/Zurich'" >> ${PGAUTOCONF}
+    echo "max_logical_replication_workers=10" >>  ${PGAUTOCONF}
     echo "log_connections=on" >> ${PGAUTOCONF}
     echo "log_disconnections=on" >> ${PGAUTOCONF}
     echo "log_duration=off" >> ${PGAUTOCONF}

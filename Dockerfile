@@ -23,7 +23,7 @@ RUN set -ex \
            libcrypto++-dev \
            libxml2-dev \
            libxslt1-dev \
-           bzip2 \
+           bzip2 nano \
            make \
            gcc \
            unzip \
@@ -75,4 +75,5 @@ ENV LANG en_US.utf8
 USER postgres
 EXPOSE 5432
 COPY docker-entrypoint.sh /
+COPY write.sql /
 ENTRYPOINT ["/docker-entrypoint.sh"]
