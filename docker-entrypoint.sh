@@ -61,6 +61,10 @@ _pg_adjust_config() {
     echo "log_lock_waits = 'on'" >> ${PGAUTOCONF}
     echo "log_temp_files = '0'" >> ${PGAUTOCONF}
     echo "log_timezone = 'Europe/Zurich'" >> ${PGAUTOCONF}
+    echo "max_worker_processes = 20" >>  ${PGAUTOCONF}
+    echo "max_parallel_workers = 20" >>  ${PGAUTOCONF}
+    echo "max_parallel_maintenance_workers = 4" >>  ${PGAUTOCONF}
+    echo "max_parallel_workers_per_gather = 20" >>  ${PGAUTOCONF}
     echo "max_logical_replication_workers=20" >>  ${PGAUTOCONF}
     echo "log_connections=on" >> ${PGAUTOCONF}
     echo "log_disconnections=on" >> ${PGAUTOCONF}

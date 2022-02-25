@@ -74,4 +74,5 @@ USER postgres
 EXPOSE 5432
 COPY docker-entrypoint.sh /
 COPY write.sql /
+COPY startup.sql /
 ENTRYPOINT ["/docker-entrypoint.sh"]
