@@ -11,7 +11,6 @@ ENV PGDATA /var/lib/postgresql/data
 ENV DEBIAN_FRONTEND=noninteractive 
 ENV PG_START_UP_SCRIPT /startup.sql
 ENV PATH $PATH:${PGHOME}/bin
-VOLUME ${PGDATA}
 ENV TZ=Etc/UTC
 RUN set -ex \
         \
@@ -37,21 +36,13 @@ RUN set -ex \
            locales \
            git libxml2\
         && localedef -i en_US -c -f UTF-8 en_US.UTF-8 \
-        && mkdir "${PGDATA}" -p \
-        \
         && groupadd -r postgres --gid=999 \
         && useradd -m -r -g postgres --uid=999 postgres \
-        && chown postgres:postgres "${PGDATA}" \
-        && mkdir -p "$PGDATA" \
-        && chown -R postgres:postgres "$PGDATA" \
-        && chmod 700 "$PGDATA" \
-        \
         && git clone  --depth 1 https://github.com/postgres/postgres \
         && mv postgres /home/postgres/ \
-        && mkdir -p ${PGHOME} \
-        && chown -R postgres:postgres /home/postgres ${PGHOME} && \
-        \
-        cd /home/postgres/postgres \
+        && mkdir -p "$PGDATA" "$PGHOME" \
+        && chown -R postgres:postgres /home/postgres ${PGHOME} ${PGDATA} \
+        && cd /home/postgres/postgres \
         && su postgres -c "./configure \
                 --enable-integer-datetimes \
                 --enable-thread-safety \
