@@ -42,7 +42,7 @@ RUN set -ex \
         && git clone  --depth 1 https://github.com/postgres/postgres \
         && mv postgres /home/postgres/ \
         && mkdir -p "$PGDATA" "$PGHOME" \
-        && chown -R postgres:postgres /home/postgres ${PGHOME} ${PGHOME} \
+        && chown -R postgres:postgres /home/postgres ${PGHOME} ${PGDATA} \
         && cd /home/postgres/postgres \
         && su postgres -c "./configure \
                 --enable-integer-datetimes \
