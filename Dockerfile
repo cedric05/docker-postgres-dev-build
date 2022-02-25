@@ -11,7 +11,6 @@ ENV PGDATA /var/lib/postgresql/data
 ENV DEBIAN_FRONTEND=noninteractive 
 ENV PG_START_UP_SCRIPT /startup.sql
 ENV PATH $PATH:${PGHOME}/bin
-VOLUME ${PGDATA}
 ENV TZ=Etc/UTC
 RUN set -ex \
         \
