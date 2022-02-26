@@ -3,10 +3,7 @@
 # this are the environment variables which need to be set
 PGAUTOCONF="${PGDATA}/postgresql.auto.conf"
 PGHBACONF="${PGDATA}/pg_hba.conf"
-PGDATABASENAME=${postgres:-PGDATABASENAME}
-PGUSERNAME=${postgres:-PGUSERNAME}
-PGPASSWD=${postgres:-PGPASSWD}
- 
+
 # create the database and the user
 _pg_create_database_and_user()
 {
@@ -83,8 +80,12 @@ _pg_adjust_config() {
     echo "autovacuum_max_workers=6" >> ${PGAUTOCONF}
     echo "autovacuum_vacuum_scale_factor=0.1" >> ${PGAUTOCONF}
     echo "autovacuum_vacuum_threshold=50" >> ${PGAUTOCONF}
+    if [ -e ${PGEXTRACONFIG} ]; then
+        cat ${PGEXTRACONFIG} >> ${PGAUTOCONF}
+    fi
     # Authentication settings in pg_hba.conf
     echo "host    all             all             0.0.0.0/0            md5" >> ${PGHBACONF}
+    
 }
  
 # initialize and start a new cluster

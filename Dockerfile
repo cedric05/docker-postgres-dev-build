@@ -9,8 +9,6 @@ ENV PG_PREFIX /usr/share/postgresql
 ENV PGHOME ${PG_PREFIX}/$PG_VERSION
 ENV PGDATA /var/lib/postgresql/data
 ENV DEBIAN_FRONTEND=noninteractive 
-ENV PG_START_UP_SCRIPT /startup.sql
-ENV PATH $PATH:${PGHOME}/bin
 ENV TZ=Etc/UTC
 RUN set -ex \
         \
@@ -69,10 +67,24 @@ RUN set -ex \
            gcc \
            make \
         && rm -rf /var/lib/apt/lists/*
-ENV LANG en_US.utf8
+
+# mount startup.sql if you want it to be executed first
+ENV PG_START_UP_SCRIPT /startup.sql
+# it will be helpful to add these to path.
+ENV PATH $PATH:${PGHOME}/bin
+# PG_EXTRA CONFIG, will be helpfull to run
+ENV PGEXTRACONFIG /extra_config.conf
+# Update postgres username & password. it will be executed first time only
+ENV PGDATABASENAME my_pg_database
+ENV PGUSERNAME my_pg_user
+ENV PGPASSWD my_pg_password
+
+VOLUME ${PGDATA}/..
+
 USER postgres
 EXPOSE 5432
 COPY docker-entrypoint.sh /
-COPY write.sql /
-COPY startup.sql /
+
+WORKDIR /home/postgres/
+
 ENTRYPOINT ["/docker-entrypoint.sh"]

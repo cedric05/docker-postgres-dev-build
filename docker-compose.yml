@@ -1,6 +1,26 @@
-version: "3.9"  # optional since v1.27.0
 services:
-  mm1:
-    build: .
-  mm2:
-    build: .
+    cedric05:
+        restart: always
+        environment:
+            # handle to configure custom user/password/database
+            - PGDATABASENAME=my_post
+            - PGUSERNAME=my_post
+            - PGPASSWD=my_post
+        volumes:
+            # handle to run startup script (only runs first time)
+            - ./startup.sql:/startup.sql
+            # handle to update `postgres.conf` only works first time
+            - ./extra_config.conf:/extra_config.conf
+            # use persistance volume
+            - 'postgres-data:/var/lib/postgresql'
+        container_name: postgres-15
+        ports:
+            - '5432:5432'
+        image: 'ghcr.io/cedric05/postgres:dev'
+    adminer:
+        image: adminer
+        restart: always
+        ports:
+        - 8080:8080
+volumes:
+    postgres-data:
