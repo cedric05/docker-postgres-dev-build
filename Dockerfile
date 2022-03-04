@@ -50,7 +50,8 @@ RUN set -ex \
                 --with-python \
                 --with-openssl \
                 --with-libxml \
-                --with-libxslt" \
+                --with-libxslt \
+                --with-lz4" \
         && su postgres -c "make -j 4 all" \
         && su postgres -c "make install" \
         && su postgres -c "make -C contrib install" \
