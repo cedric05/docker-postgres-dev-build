@@ -77,8 +77,6 @@ _pg_adjust_config() {
     echo "max_replication_slots = '20'" >> ${PGAUTOCONF}
     echo "work_mem=8MB" >> ${PGAUTOCONF}
     echo "maintenance_work_mem=64MB" >> ${PGAUTOCONF}
-    echo "wal_compression=on" >> ${PGAUTOCONF}
-    echo "max_wal_senders=20" >> ${PGAUTOCONF}
     echo "shared_preload_libraries='pg_stat_statements'" >> ${PGAUTOCONF}
     echo "autovacuum_max_workers=6" >> ${PGAUTOCONF}
     echo "autovacuum_vacuum_scale_factor=0.1" >> ${PGAUTOCONF}
