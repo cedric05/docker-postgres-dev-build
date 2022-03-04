@@ -32,7 +32,8 @@ RUN set -ex \
            unzip \
            python3 libpython3-dev \
            locales \
-           git libxml2\
+           git libxml2 \
+           liblz4-tool \
         && localedef -i en_US -c -f UTF-8 en_US.UTF-8 \
         && groupadd -r postgres --gid=999 \
         && useradd -m -r -g postgres --uid=999 postgres \
