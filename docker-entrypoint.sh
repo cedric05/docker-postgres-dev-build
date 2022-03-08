@@ -68,9 +68,9 @@ _pg_adjust_config() {
     echo "log_duration=off" >> ${PGAUTOCONF}
     echo "client_min_messages = 'WARNING'" >> ${PGAUTOCONF}
     echo "wal_level = 'logical'" >> ${PGAUTOCONF}
-    echo "max_wal_size = '500MB'" >> ${PGAUTOCONF}
+    echo "max_wal_size = '1GB'" >> ${PGAUTOCONF}
     echo "wal_compression = 'lz4'" >> ${PGAUTOCONF}
-    echo "min_wal_size = '40MB'" >> ${PGAUTOCONF}
+    echo "min_wal_size = '80MB'" >> ${PGAUTOCONF}
     echo "hot_standby_feedback = 'on'" >> ${PGAUTOCONF}
     echo "max_wal_senders = '20'" >> ${PGAUTOCONF}
     echo "cluster_name = '${PGDATABASENAME}'" >> ${PGAUTOCONF}
